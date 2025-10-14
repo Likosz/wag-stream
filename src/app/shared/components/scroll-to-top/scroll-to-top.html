@@ -1,0 +1,9 @@
+<button
+  *ngIf="isVisible()"
+  class="scroll-to-top"
+  (click)="scrollToTop()"
+  aria-label="Voltar ao topo"
+  [@fadeIn]
+>
+  <lucide-angular [img]="ArrowUpIcon" [size]="24"></lucide-angular>
+</button>

@@ -1,34 +1,49 @@
 <div class="home">
+  <!-- Featured Banner Carousel (mantém o carousel original de destaque) -->
   <section class="home__featured" *ngIf="featuredMovies().length > 0">
     <app-carousel [movies]="featuredMovies()"></app-carousel>
   </section>
 
-  <section class="home__section">
-    <h2 class="home__section-title">Filmes Populares</h2>
-    <div class="home__grid">
-      @if (isLoading()) { @for (_ of skeletonArray; track $index) {
-      <app-movie-card-skeleton></app-movie-card-skeleton>
-      } } @else { @for (movie of popularMovies(); track movie.id) {
-      <app-movie-card [movie]="movie"></app-movie-card>
-      } }
+  <!-- Loading Skeletons -->
+  @if (isLoading()) {
+  <div class="home__loading">
+    <div class="home__loading-section">
+      <div class="home__loading-title"></div>
+      <div class="home__loading-cards">
+        @for (_ of [1,2,3,4,5,6]; track $index) {
+        <app-movie-card-skeleton></app-movie-card-skeleton>
+        }
+      </div>
     </div>
-  </section>
+  </div>
+  }
 
-  <section class="home__section" *ngIf="!isLoading() && topRatedMovies().length > 0">
-    <h2 class="home__section-title">Mais Bem Avaliados</h2>
-    <div class="home__grid">
-      @for (movie of topRatedMovies(); track movie.id) {
-      <app-movie-card [movie]="movie"></app-movie-card>
-      }
-    </div>
-  </section>
+  <!-- Horizontal Movie Carousels -->
+  @if (!isLoading()) {
 
-  <section class="home__section" *ngIf="!isLoading() && upcomingMovies().length > 0">
-    <h2 class="home__section-title">Próximos Lançamentos</h2>
-    <div class="home__grid">
-      @for (movie of upcomingMovies(); track movie.id) {
-      <app-movie-card [movie]="movie"></app-movie-card>
-      }
-    </div>
-  </section>
+  <!-- Filmes Populares -->
+  <app-movie-carousel
+    *ngIf="popularMovies().length > 0"
+    [movies]="popularMovies()"
+    [title]="'Filmes Populares'"
+  ></app-movie-carousel>
+
+  <!-- Mais Bem Avaliados -->
+  <app-movie-carousel
+    *ngIf="topRatedMovies().length > 0"
+    [movies]="topRatedMovies()"
+    [title]="'Mais Bem Avaliados'"
+  ></app-movie-carousel>
+
+  <!-- Próximos Lançamentos -->
+  <app-movie-carousel
+    *ngIf="upcomingMovies().length > 0"
+    [movies]="upcomingMovies()"
+    [title]="'Próximos Lançamentos'"
+  ></app-movie-carousel>
+
+  }
+
+  <!-- Scroll to Top Button -->
+  <app-scroll-to-top></app-scroll-to-top>
 </div>

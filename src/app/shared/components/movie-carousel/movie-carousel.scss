@@ -1,0 +1,145 @@
+.movie-carousel {
+  width: 100%;
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+
+  &__header {
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    padding-left: 0.25rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  &__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__track {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+
+    @media (max-width: 768px) {
+      gap: 0.75rem;
+    }
+  }
+
+  &__item {
+    flex: 0 0 auto;
+    width: 200px;
+
+    @media (max-width: 1200px) {
+      width: 180px;
+    }
+
+    @media (max-width: 768px) {
+      width: 150px;
+    }
+
+    @media (max-width: 480px) {
+      width: 140px;
+    }
+  }
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+
+    &:hover {
+      background: rgba(229, 9, 20, 0.95);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &--left {
+      left: -28px;
+    }
+
+    &--right {
+      right: -28px;
+    }
+
+    @media (max-width: 768px) {
+      width: 48px;
+      height: 48px;
+
+      &--left {
+        left: -24px;
+      }
+
+      &--right {
+        right: -24px;
+      }
+    }
+  }
+
+  &:hover &__nav {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &__scroll {
+    scroll-snap-type: x proximity;
+  }
+
+  &__item {
+    scroll-snap-align: start;
+  }
+}
+
+// Animation on hover
+.movie-carousel__container:hover {
+  .movie-carousel__nav {
+    animation: fadeInNav 0.3s ease-out forwards;
+  }
+}
+
+@keyframes fadeInNav {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

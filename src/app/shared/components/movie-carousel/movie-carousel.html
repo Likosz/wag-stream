@@ -1,0 +1,38 @@
+<div class="movie-carousel">
+  <div class="movie-carousel__header">
+    <h2 class="movie-carousel__title">{{ title() }}</h2>
+  </div>
+
+  <div class="movie-carousel__container">
+    <!-- Scroll Left Button -->
+    <button
+      *ngIf="canScrollLeft()"
+      class="movie-carousel__nav movie-carousel__nav--left"
+      (click)="scrollLeft()"
+      aria-label="Scroll esquerda"
+    >
+      <lucide-angular [img]="ChevronLeftIcon" [size]="32"></lucide-angular>
+    </button>
+
+    <!-- Scroll Container -->
+    <div class="movie-carousel__scroll">
+      <div class="movie-carousel__track">
+        <app-movie-card
+          *ngFor="let movie of movies(); trackBy: trackByMovieId"
+          [movie]="movie"
+          class="movie-carousel__item"
+        ></app-movie-card>
+      </div>
+    </div>
+
+    <!-- Scroll Right Button -->
+    <button
+      *ngIf="canScrollRight()"
+      class="movie-carousel__nav movie-carousel__nav--right"
+      (click)="scrollRight()"
+      aria-label="Scroll direita"
+    >
+      <lucide-angular [img]="ChevronRightIcon" [size]="32"></lucide-angular>
+    </button>
+  </div>
+</div>

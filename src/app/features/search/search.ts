@@ -8,6 +8,8 @@ import { TmdbService, DiscoverMovieParams } from '../../core/services/tmdb.servi
 import { Movie, Genre } from '../../core/models';
 import { MovieCardComponent } from '../../shared/components/movie-card/movie-card';
 import { MovieCardSkeletonComponent } from '../../shared/components/movie-card-skeleton/movie-card-skeleton';
+import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
+import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top';
 import { LucideAngularModule, Search, SlidersHorizontal, X, Filter } from 'lucide-angular';
 import { animate, inView } from 'motion';
 
@@ -23,6 +25,8 @@ interface SortOption {
     ReactiveFormsModule,
     MovieCardComponent,
     MovieCardSkeletonComponent,
+    InfiniteScrollDirective,
+    ScrollToTopComponent,
     LucideAngularModule,
   ],
   templateUrl: './search.html',
@@ -31,29 +35,28 @@ interface SortOption {
 export class SearchComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  // Icons
   readonly SearchIcon = Search;
   readonly SlidersIcon = SlidersHorizontal;
   readonly XIcon = X;
   readonly FilterIcon = Filter;
 
-  // Form Controls
   searchControl = new FormControl('');
 
-  // Signals
   movies = signal<Movie[]>([]);
   genres = signal<Genre[]>([]);
   isLoading = signal(true);
+  isLoadingMore = signal(false);
   hasSearched = signal(false);
   showFilters = signal(false);
 
-  // Filter states
+  private currentPage = 1;
+  private totalPages = 1;
+
   selectedGenres = signal<number[]>([]);
   selectedYear = signal<number | null>(null);
   selectedRating = signal<number | null>(null);
   selectedSort = signal<string>('popularity.desc');
 
-  // Computed
   filteredMoviesCount = computed(() => this.movies().length);
   hasActiveFilters = computed(
     () =>
@@ -142,29 +145,42 @@ export class SearchComponent implements OnInit, OnDestroy {
     });
   }
 
-  private performSearch() {
+  private performSearch(resetPage = true) {
+    if (resetPage) {
+      this.currentPage = 1;
+      this.isLoading.set(true);
+    }
+
     const query = this.searchControl.value?.trim();
-    this.isLoading.set(true);
 
     // If there's a search query, use search endpoint
     if (query) {
-      this.tmdbService.searchMovies(query).subscribe({
+      this.tmdbService.searchMovies(query, this.currentPage).subscribe({
         next: (response) => {
           let results = response.results;
+          this.totalPages = response.total_pages;
 
           results = this.applyClientFilters(results);
 
-          this.movies.set(results);
+          if (resetPage) {
+            this.movies.set(results);
+          } else {
+            this.movies.update((current) => [...current, ...results]);
+          }
+
           this.isLoading.set(false);
+          this.isLoadingMore.set(false);
         },
         error: (error) => {
           console.error('Search error:', error);
           this.isLoading.set(false);
+          this.isLoadingMore.set(false);
         },
       });
     } else {
       const filters: DiscoverMovieParams = {
         sort_by: this.selectedSort(),
+        page: this.currentPage,
       };
 
       if (this.selectedGenres().length > 0) {
@@ -181,12 +197,21 @@ export class SearchComponent implements OnInit, OnDestroy {
 
       this.tmdbService.discoverMovies(filters).subscribe({
         next: (response) => {
-          this.movies.set(response.results);
+          this.totalPages = response.total_pages;
+
+          if (resetPage) {
+            this.movies.set(response.results);
+          } else {
+            this.movies.update((current) => [...current, ...response.results]);
+          }
+
           this.isLoading.set(false);
+          this.isLoadingMore.set(false);
         },
         error: (error) => {
           console.error('Discover error:', error);
           this.isLoading.set(false);
+          this.isLoadingMore.set(false);
         },
       });
     }
@@ -288,10 +313,24 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.movies.set([]);
     this.hasSearched.set(false);
     this.isLoading.set(false);
+    this.currentPage = 1;
+    this.totalPages = 1;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { q: null },
       queryParamsHandling: 'merge',
     });
+  }
+
+  onScrollEnd() {
+    if (this.isLoadingMore() || !this.canLoadMore) return;
+
+    this.isLoadingMore.set(true);
+    this.currentPage++;
+    this.performSearch(false);
+  }
+
+  get canLoadMore(): boolean {
+    return this.currentPage < this.totalPages && !this.isLoadingMore();
   }
 }

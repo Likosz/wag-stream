@@ -30,9 +30,9 @@
         <span>Filtros</span>
         <span *ngIf="hasActiveFilters()" class="filter-badge">{{
           (selectedGenres().length > 0 ? 1 : 0) +
-          (selectedYear() !== null ? 1 : 0) +
-          (selectedRating() !== null ? 1 : 0) +
-          (selectedSort() !== 'popularity.desc' ? 1 : 0)
+            (selectedYear() !== null ? 1 : 0) +
+            (selectedRating() !== null ? 1 : 0) +
+            (selectedSort() !== 'popularity.desc' ? 1 : 0)
         }}</span>
       </button>
     </div>
@@ -121,7 +121,10 @@
       <div class="results-header" *ngIf="hasSearched() && !isLoading()">
         <p class="results-count">
           <span *ngIf="filteredMoviesCount() > 0">
-            {{ filteredMoviesCount() }} resultado{{ filteredMoviesCount() !== 1 ? 's' : '' }} encontrado{{ filteredMoviesCount() !== 1 ? 's' : '' }}
+            {{ filteredMoviesCount() }} resultado{{
+              filteredMoviesCount() !== 1 ? 's' : ''
+            }}
+            encontrado{{ filteredMoviesCount() !== 1 ? 's' : '' }}
           </span>
         </p>
       </div>
@@ -135,6 +138,21 @@
       <div class="movies-grid" *ngIf="!isLoading() && movies().length > 0">
         <app-movie-card *ngFor="let movie of movies()" [movie]="movie"></app-movie-card>
       </div>
+
+      <!-- Loading More Indicator -->
+      <div class="search-results__loading-more" *ngIf="isLoadingMore()">
+        <div class="loading-spinner"></div>
+        <p>Carregando mais resultados...</p>
+      </div>
+
+      <!-- Infinite Scroll Sentinel -->
+      <div
+        class="search-results__scroll-sentinel"
+        *ngIf="!isLoading() && movies().length > 0"
+        appInfiniteScroll
+        [disabled]="!canLoadMore"
+        (scrolled)="onScrollEnd()"
+      ></div>
 
       <!-- Empty States -->
       <div class="empty-state" *ngIf="!isLoading() && hasSearched() && movies().length === 0">
@@ -161,4 +179,6 @@
       </div>
     </div>
   </div>
+
+  <app-scroll-to-top></app-scroll-to-top>
 </div>
