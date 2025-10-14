@@ -1,11 +1,22 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, input, ViewEncapsulation, AfterViewInit, ElementRef, inject } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  input,
+  ViewEncapsulation,
+  AfterViewInit,
+  OnDestroy,
+  ElementRef,
+  inject,
+  signal,
+  computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Movie } from '../../../core/models';
 import { TmdbService } from '../../../core/services/tmdb.service';
 import { ImageSize } from '../../../core/models/enums';
-import { LucideAngularModule, Play, Info } from 'lucide-angular';
-import { animate, stagger, inView } from 'motion';
+import { LucideAngularModule, Play, Star, ChevronLeft, ChevronRight } from 'lucide-angular';
+import { animate, inView } from 'motion';
 
 @Component({
   selector: 'app-carousel',
@@ -15,55 +26,109 @@ import { animate, stagger, inView } from 'motion';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   encapsulation: ViewEncapsulation.None,
 })
-export class CarouselComponent implements AfterViewInit {
+export class CarouselComponent implements AfterViewInit, OnDestroy {
   movies = input.required<Movie[]>();
   private el = inject(ElementRef);
 
   readonly PlayIcon = Play;
-  readonly InfoIcon = Info;
+  readonly StarIcon = Star;
+  readonly ChevronLeftIcon = ChevronLeft;
+  readonly ChevronRightIcon = ChevronRight;
+
+  currentIndex = signal(0);
+  currentMovie = computed(() => this.movies()[this.currentIndex()]);
+
+  private autoPlayInterval: any;
+  private readonly AUTO_PLAY_DELAY = 4000;
 
   constructor(private tmdbService: TmdbService) {}
 
   ngAfterViewInit() {
-    // Animar o conteúdo do carousel quando ele aparecer
-    const carouselContent = this.el.nativeElement.querySelectorAll('.carousel__content > *');
+    this.startAutoPlay();
 
-    if (carouselContent.length > 0) {
+    // Animar entrada do banner
+    const banner = this.el.nativeElement.querySelector('.featured-banner__card');
+    if (banner) {
       inView(
-        this.el.nativeElement.querySelector('.carousel'),
+        banner,
         () => {
-          animate(
-            carouselContent,
-            { opacity: [0, 1], y: [30, 0] },
-            {
-              duration: 0.6,
-              delay: stagger(0.1)
-            }
-          );
+          animate(banner, { opacity: [0, 1], y: [20, 0] }, { duration: 0.6 });
         },
         { amount: 0.3 }
       );
     }
+  }
 
-    // Animar botões no hover
-    const buttons = this.el.nativeElement.querySelectorAll('.carousel__button');
-    buttons.forEach((button: HTMLElement) => {
-      button.addEventListener('mouseenter', () => {
-        animate(
-          button,
-          { transform: ['scale(1)', 'scale(1.05)'], y: [0, -2] },
-          { duration: 0.2 }
-        );
-      });
+  ngOnDestroy() {
+    this.stopAutoPlay();
+  }
 
-      button.addEventListener('mouseleave', () => {
-        animate(
-          button,
-          { transform: ['scale(1.05)', 'scale(1)'], y: [-2, 0] },
-          { duration: 0.2 }
-        );
+  startAutoPlay() {
+    this.autoPlayInterval = setInterval(() => {
+      this.nextSlide();
+    }, this.AUTO_PLAY_DELAY);
+  }
+
+  stopAutoPlay() {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+    }
+  }
+
+  resetAutoPlay() {
+    this.stopAutoPlay();
+    this.startAutoPlay();
+  }
+
+  nextSlide(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const nextIndex = (this.currentIndex() + 1) % this.movies().length;
+    this.animateTransition(nextIndex);
+    this.resetAutoPlay();
+  }
+
+  previousSlide(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const prevIndex =
+      this.currentIndex() === 0 ? this.movies().length - 1 : this.currentIndex() - 1;
+    this.animateTransition(prevIndex);
+    this.resetAutoPlay();
+  }
+
+  goToSlide(index: number, event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (index !== this.currentIndex()) {
+      this.animateTransition(index);
+      this.resetAutoPlay();
+    }
+  }
+
+  private animateTransition(newIndex: number) {
+    const card = this.el.nativeElement.querySelector('.featured-banner__card');
+    if (card) {
+      animate(card, { opacity: [1, 0], scale: [1, 0.98] }, { duration: 0.3 }).finished.then(() => {
+        this.currentIndex.set(newIndex);
+
+        // Fade in com o novo conteúdo
+        setTimeout(() => {
+          animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+        }, 50);
       });
-    });
+    } else {
+      this.currentIndex.set(newIndex);
+    }
   }
 
   getBackdropUrl(movie: Movie): string {

@@ -1,0 +1,58 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "save": "Salvar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "more": "Mais",
+    "less": "Menos"
+  },
+  "home": {
+    "title": "Início",
+    "featured": "Em Destaque",
+    "popular": "Populares",
+    "topRated": "Mais Bem Avaliados",
+    "upcoming": "Próximos Lançamentos",
+    "nowPlaying": "Em Cartaz"
+  },
+  "movie": {
+    "title": "Título",
+    "overview": "Sinopse",
+    "releaseDate": "Data de Lançamento",
+    "runtime": "Duração",
+    "rating": "Avaliação",
+    "voteCount": "votos",
+    "budget": "Orçamento",
+    "revenue": "Receita",
+    "status": "Status",
+    "tagline": "Slogan",
+    "genres": "Gêneros",
+    "cast": "Elenco",
+    "crew": "Equipe",
+    "director": "Diretor",
+    "trailers": "Trailers",
+    "similarMovies": "Filmes Similares",
+    "recommendations": "Recomendações",
+    "productionCompanies": "Produtoras",
+    "spokenLanguages": "Idiomas",
+    "watchTrailer": "Assistir Trailer",
+    "moreInfo": "Mais Informações",
+    "shareLink": "Compartilhar Link",
+    "linkCopied": "Link copiado!",
+    "minutes": "min"
+  },
+  "search": {
+    "placeholder": "Buscar filmes...",
+    "results": "Resultados",
+    "noResults": "Nenhum resultado encontrado"
+  },
+  "language": {
+    "ptBR": "Português (BR)",
+    "en": "English"
+  }
+}

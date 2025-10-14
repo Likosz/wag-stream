@@ -1,0 +1,58 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "save": "Save",
+    "search": "Search",
+    "filter": "Filter",
+    "more": "More",
+    "less": "Less"
+  },
+  "home": {
+    "title": "Home",
+    "featured": "Featured",
+    "popular": "Popular",
+    "topRated": "Top Rated",
+    "upcoming": "Upcoming",
+    "nowPlaying": "Now Playing"
+  },
+  "movie": {
+    "title": "Title",
+    "overview": "Overview",
+    "releaseDate": "Release Date",
+    "runtime": "Runtime",
+    "rating": "Rating",
+    "voteCount": "votes",
+    "budget": "Budget",
+    "revenue": "Revenue",
+    "status": "Status",
+    "tagline": "Tagline",
+    "genres": "Genres",
+    "cast": "Cast",
+    "crew": "Crew",
+    "director": "Director",
+    "trailers": "Trailers",
+    "similarMovies": "Similar Movies",
+    "recommendations": "Recommendations",
+    "productionCompanies": "Production Companies",
+    "spokenLanguages": "Spoken Languages",
+    "watchTrailer": "Watch Trailer",
+    "moreInfo": "More Info",
+    "shareLink": "Share Link",
+    "linkCopied": "Link copied!",
+    "minutes": "min"
+  },
+  "search": {
+    "placeholder": "Search movies...",
+    "results": "Results",
+    "noResults": "No results found"
+  },
+  "language": {
+    "ptBR": "Português (BR)",
+    "en": "English"
+  }
+}

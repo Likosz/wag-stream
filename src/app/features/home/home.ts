@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TmdbService } from '../../core/services/tmdb.service';
+import { ScrollPositionService } from '../../core/services/scroll-position.service';
 import { Movie, MovieCategory } from '../../core/models';
 import { CarouselComponent } from '../../shared/components/carousel/carousel';
 import { MovieCardComponent } from '../../shared/components/movie-card/movie-card';
@@ -12,7 +13,7 @@ import { MovieCardSkeletonComponent } from '../../shared/components/movie-card-s
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   featuredMovies = signal<Movie[]>([]);
   popularMovies = signal<Movie[]>([]);
   topRatedMovies = signal<Movie[]>([]);
@@ -20,10 +21,22 @@ export class HomeComponent implements OnInit {
   isLoading = signal(true);
   skeletonArray = new Array(20);
 
-  constructor(private tmdbService: TmdbService) {}
+  private readonly ROUTE_KEY = 'home';
+
+  constructor(
+    private tmdbService: TmdbService,
+    private scrollPositionService: ScrollPositionService
+  ) {}
 
   ngOnInit() {
     this.loadMovies();
+    setTimeout(() => {
+      this.scrollPositionService.restoreScrollPosition(this.ROUTE_KEY);
+    }, 100);
+  }
+
+  ngOnDestroy() {
+    this.scrollPositionService.saveScrollPosition(this.ROUTE_KEY);
   }
 
   private loadMovies() {
