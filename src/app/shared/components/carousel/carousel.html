@@ -1,0 +1,51 @@
+<div class="featured-banner" *ngIf="movies().length > 0">
+  <div class="featured-banner__container">
+    <div class="featured-banner__card" [routerLink]="['/movie', currentMovie().id]">
+      <div
+        class="featured-banner__backdrop"
+        [style.background-image]="'url(' + getBackdropUrl(currentMovie()) + ')'"
+      >
+        <div class="featured-banner__overlay"></div>
+
+        <div class="featured-banner__content">
+          <span class="featured-banner__label">Em Destaque</span>
+
+          <h2 class="featured-banner__title">{{ currentMovie().title }}</h2>
+
+          <div class="featured-banner__meta">
+            <span class="meta-rating">
+              <lucide-angular [img]="StarIcon" [size]="16"></lucide-angular>
+              {{ getRating(currentMovie()) }}
+            </span>
+            <span class="meta-separator">•</span>
+            <span class="meta-year">{{ getReleaseYear(currentMovie()) }}</span>
+          </div>
+
+          <button class="featured-banner__play-btn">
+            <lucide-angular [img]="PlayIcon" [size]="20"></lucide-angular>
+            <span>Assistir Agora</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="featured-banner__nav featured-banner__nav--prev" (click)="previousSlide($event)">
+      <lucide-angular [img]="ChevronLeftIcon" [size]="24"></lucide-angular>
+    </button>
+    <button class="featured-banner__nav featured-banner__nav--next" (click)="nextSlide($event)">
+      <lucide-angular [img]="ChevronRightIcon" [size]="24"></lucide-angular>
+    </button>
+
+    <!-- Indicators -->
+    <div class="featured-banner__indicators">
+      <button
+        *ngFor="let movie of movies(); let i = index"
+        class="indicator"
+        [class.active]="i === currentIndex()"
+        (click)="goToSlide(i, $event)"
+        [attr.aria-label]="'Ir para filme ' + (i + 1)"
+      ></button>
+    </div>
+  </div>
+</div>

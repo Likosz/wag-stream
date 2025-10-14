@@ -1,0 +1,147 @@
+<div class="movie-details" *ngIf="!isLoading() && movie(); else loading">
+  <!-- Hero Section with Backdrop -->
+  <div class="movie-hero">
+    <div
+      class="movie-hero__background"
+      [style.background-image]="'url(' + getBackdropUrl() + ')'"
+    ></div>
+    <div class="movie-hero__overlay"></div>
+
+    <div class="movie-hero__content container">
+      <div class="movie-hero__poster">
+        <img [src]="getPosterUrl()" [alt]="movie()!.title" />
+      </div>
+
+      <div class="movie-hero__info">
+        <h1 class="movie-hero__title">{{ movie()!.title }}</h1>
+
+        <p class="movie-hero__tagline" *ngIf="movie()!.tagline">
+          "{{ movie()!.tagline }}"
+        </p>
+
+        <div class="movie-hero__meta">
+          <span class="meta-item">
+            <lucide-angular [img]="StarIcon" [size]="20"></lucide-angular>
+            {{ getRating() }}
+          </span>
+          <span class="meta-divider">•</span>
+          <span class="meta-item">
+            <lucide-angular [img]="CalendarIcon" [size]="20"></lucide-angular>
+            {{ getReleaseYear() }}
+          </span>
+          <span class="meta-divider">•</span>
+          <span class="meta-item">
+            <lucide-angular [img]="ClockIcon" [size]="20"></lucide-angular>
+            {{ getRuntime() }}
+          </span>
+        </div>
+
+        <div class="movie-hero__genres">
+          <span class="genre-badge" *ngFor="let genre of movie()!.genres">
+            {{ genre.name }}
+          </span>
+        </div>
+
+        <div class="movie-hero__actions">
+          <button class="btn btn--primary" *ngIf="videos().length > 0">
+            <lucide-angular [img]="PlayIcon" [size]="20"></lucide-angular>
+            {{ 'movie.watchTrailer' | transloco }}
+          </button>
+          <button
+            class="btn btn--secondary"
+            (click)="copyShareLink()"
+          >
+            <lucide-angular [img]="ShareIcon" [size]="20"></lucide-angular>
+            {{ 'movie.shareLink' | transloco }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="movie-content container">
+    <!-- Overview -->
+    <section class="content-section">
+      <h2 class="section-title">{{ 'movie.overview' | transloco }}</h2>
+      <p class="movie-overview">{{ movie()!.overview }}</p>
+    </section>
+
+    <!-- Details -->
+    <section class="content-section">
+      <h2 class="section-title">{{ 'movie.moreInfo' | transloco }}</h2>
+      <div class="movie-details-grid">
+        <div class="detail-item">
+          <lucide-angular [img]="UsersIcon" [size]="20"></lucide-angular>
+          <span class="detail-label">{{ 'movie.director' | transloco }}:</span>
+          <span class="detail-value">{{ getDirector() }}</span>
+        </div>
+        <div class="detail-item" *ngIf="movie()!.budget">
+          <lucide-angular [img]="DollarIcon" [size]="20"></lucide-angular>
+          <span class="detail-label">{{ 'movie.budget' | transloco }}:</span>
+          <span class="detail-value">{{ formatCurrency(movie()!.budget) }}</span>
+        </div>
+        <div class="detail-item" *ngIf="movie()!.revenue">
+          <lucide-angular [img]="DollarIcon" [size]="20"></lucide-angular>
+          <span class="detail-label">{{ 'movie.revenue' | transloco }}:</span>
+          <span class="detail-value">{{ formatCurrency(movie()!.revenue) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trailers -->
+    <section class="content-section" *ngIf="videos().length > 0">
+      <h2 class="section-title">{{ 'movie.trailers' | transloco }}</h2>
+      <div class="trailers-grid">
+        <div class="trailer-item" *ngFor="let video of videos().slice(0, 2)">
+          <div class="plyr-container">
+            <iframe
+              [src]="getYoutubeEmbedUrl(video.key) | trustUrl"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <p class="trailer-title">{{ video.name }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cast -->
+    <section class="content-section" *ngIf="credits() && credits()!.cast.length > 0">
+      <h2 class="section-title">{{ 'movie.cast' | transloco }}</h2>
+      <div class="cast-grid">
+        <div class="cast-card" *ngFor="let actor of credits()!.cast.slice(0, 8)">
+          <img
+            [src]="tmdbService.getImageUrl(actor.profile_path, 'w185')"
+            [alt]="actor.name"
+            class="cast-card__image"
+          />
+          <h3 class="cast-card__name">{{ actor.name }}</h3>
+          <p class="cast-card__character">{{ actor.character }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Similar Movies -->
+    <section class="content-section" *ngIf="similarMovies().length > 0">
+      <h2 class="section-title">{{ 'movie.similarMovies' | transloco }}</h2>
+      <div class="similar-movies-grid">
+        <a
+          [routerLink]="['/movie', movie.id]"
+          class="similar-movie-card"
+          *ngFor="let movie of similarMovies()"
+        >
+          <img [src]="getMoviePoster(movie)" [alt]="movie.title" />
+          <h3>{{ movie.title }}</h3>
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <p>{{ 'common.loading' | transloco }}</p>
+  </div>
+</ng-template>

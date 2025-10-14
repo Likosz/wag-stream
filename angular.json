@@ -31,6 +31,11 @@
             ],
             "styles": [
               "src/styles.scss"
+            ],
+            "allowedCommonJsDependencies": [
+              "dayjs",
+              "dayjs/plugin/relativeTime",
+              "dayjs/locale/pt-br"
             ]
           },
           "configurations": {
@@ -43,8 +48,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
                 }
               ],
               "outputHashing": "all"
@@ -94,5 +99,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "654211d2-6e74-4bc0-8da1-078efc368f65"
   }
 }

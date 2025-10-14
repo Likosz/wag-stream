@@ -1,0 +1,34 @@
+<div class="home">
+  <section class="home__featured" *ngIf="featuredMovies().length > 0">
+    <app-carousel [movies]="featuredMovies()"></app-carousel>
+  </section>
+
+  <section class="home__section">
+    <h2 class="home__section-title">Filmes Populares</h2>
+    <div class="home__grid">
+      @if (isLoading()) { @for (_ of skeletonArray; track $index) {
+      <app-movie-card-skeleton></app-movie-card-skeleton>
+      } } @else { @for (movie of popularMovies(); track movie.id) {
+      <app-movie-card [movie]="movie"></app-movie-card>
+      } }
+    </div>
+  </section>
+
+  <section class="home__section" *ngIf="!isLoading() && topRatedMovies().length > 0">
+    <h2 class="home__section-title">Mais Bem Avaliados</h2>
+    <div class="home__grid">
+      @for (movie of topRatedMovies(); track movie.id) {
+      <app-movie-card [movie]="movie"></app-movie-card>
+      }
+    </div>
+  </section>
+
+  <section class="home__section" *ngIf="!isLoading() && upcomingMovies().length > 0">
+    <h2 class="home__section-title">Próximos Lançamentos</h2>
+    <div class="home__grid">
+      @for (movie of upcomingMovies(); track movie.id) {
+      <app-movie-card [movie]="movie"></app-movie-card>
+      }
+    </div>
+  </section>
+</div>

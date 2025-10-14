@@ -1,13 +1,18 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 /**
  Interceptor funcional para tratamento de erros HTTP
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const toastr = inject(ToastrService);
+
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessage = 'Ocorreu um erro desconhecido';
+      let showToast = true;
 
       if (error.error instanceof ErrorEvent) {
         errorMessage = `Erro: ${error.error.message}`;
@@ -19,6 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             break;
           case 404:
             errorMessage = 'Recurso não encontrado';
+            showToast = false;
             break;
           case 429:
             errorMessage = 'Limite de requisições excedido. Tente novamente mais tarde';
@@ -38,6 +44,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         url: req.url,
         error: error.error,
       });
+
+      // Exibir toast apenas para erros críticos
+      if (showToast) {
+        toastr.error(errorMessage, 'Erro', {
+          timeOut: 5000,
+        });
+      }
 
       return throwError(() => new Error(errorMessage));
     })
