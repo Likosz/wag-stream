@@ -1,0 +1,70 @@
+<header class="header" [class.scrolled]="isScrolled()">
+  <div class="header__container">
+    <!-- Logo -->
+    <a routerLink="/home" class="header__logo">
+      <span class="header__logo-text">WagStream</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="header__nav">
+      <a routerLink="/home" routerLinkActive="active" class="header__nav-link">
+        <lucide-angular [img]="HomeIcon" [size]="18"></lucide-angular>
+        <span>Início</span>
+      </a>
+      <a routerLink="/search" routerLinkActive="active" class="header__nav-link">
+        <lucide-angular [img]="SearchIcon" [size]="18"></lucide-angular>
+        <span>Categorias</span>
+      </a>
+    </nav>
+
+    <!-- Desktop Search Bar -->
+    <div class="header__search">
+      <lucide-angular [img]="SearchIcon" [size]="18" class="header__search-icon"></lucide-angular>
+      <input
+        type="text"
+        [formControl]="searchControl"
+        (keypress)="onSearchKeyPress($event)"
+        class="header__search-input"
+        placeholder="Buscar filmes..."
+      />
+      <button *ngIf="searchControl.value" (click)="onSearch()" class="header__search-btn">
+        Buscar
+      </button>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="header__mobile-toggle" (click)="toggleMobileMenu()">
+      <span class="header__mobile-toggle-bar"></span>
+      <span class="header__mobile-toggle-bar"></span>
+      <span class="header__mobile-toggle-bar"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="header__mobile-menu" *ngIf="showMobileMenu()">
+    <nav class="header__mobile-nav">
+      <a routerLink="/home" routerLinkActive="active" class="header__mobile-link">
+        <lucide-angular [img]="HomeIcon" [size]="20"></lucide-angular>
+        <span>Início</span>
+      </a>
+      <a routerLink="/search" routerLinkActive="active" class="header__mobile-link">
+        <lucide-angular [img]="SearchIcon" [size]="20"></lucide-angular>
+        <span>Buscar</span>
+      </a>
+    </nav>
+
+    <!-- Mobile Search -->
+    <div class="header__mobile-search">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        (keypress)="onSearchKeyPress($event)"
+        class="header__mobile-search-input"
+        placeholder="Buscar filmes..."
+      />
+      <button (click)="onSearch()" class="header__mobile-search-btn">
+        <lucide-angular [img]="SearchIcon" [size]="20"></lucide-angular>
+      </button>
+    </div>
+  </div>
+</header>
