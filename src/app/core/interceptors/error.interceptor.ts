@@ -1,10 +1,14 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 /**
  Interceptor funcional para tratamento de erros HTTP
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const toastr = inject(ToastrService);
+
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessage = 'Ocorreu um erro desconhecido';
@@ -37,6 +41,10 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         message: errorMessage,
         url: req.url,
         error: error.error,
+      });
+
+      toastr.error(errorMessage, 'Erro', {
+        timeOut: 5000,
       });
 
       return throwError(() => new Error(errorMessage));

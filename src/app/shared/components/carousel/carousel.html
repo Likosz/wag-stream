@@ -1,0 +1,51 @@
+<div class="carousel" *ngIf="movies().length > 0">
+  <swiper-container
+    class="carousel-swiper"
+    [slidesPerView]="1"
+    [navigation]="true"
+    [pagination]="{ clickable: true, dynamicBullets: true }"
+    [autoplay]="{ delay: 5000, disableOnInteraction: false }"
+    [loop]="true"
+    [effect]="'fade'"
+  >
+    <swiper-slide *ngFor="let movie of movies()" class="carousel__slide">
+      <div
+        class="carousel__background"
+        [style.background-image]="'url(' + getBackdropUrl(movie) + ')'"
+      ></div>
+      <div class="carousel__overlay"></div>
+
+      <div class="carousel__content">
+        <h2 class="carousel__title">{{ movie.title }}</h2>
+
+        <div class="carousel__info">
+          <span class="carousel__rating">
+            <span class="rating-icon">★</span>
+            {{ getRating(movie) }}
+          </span>
+          <span class="carousel__separator">•</span>
+          <span class="carousel__year">{{ getReleaseYear(movie) }}</span>
+        </div>
+
+        <p class="carousel__overview">{{ movie.overview }}</p>
+
+        <div class="carousel__actions">
+          <button
+            class="carousel__button carousel__button--primary"
+            [routerLink]="['/movie', movie.id]"
+          >
+            <lucide-angular [img]="PlayIcon" [size]="20" class="button-icon"></lucide-angular>
+            Assistir
+          </button>
+          <button
+            class="carousel__button carousel__button--secondary"
+            [routerLink]="['/movie', movie.id]"
+          >
+            <lucide-angular [img]="InfoIcon" [size]="20" class="button-icon"></lucide-angular>
+            Mais Informações
+          </button>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+</div>

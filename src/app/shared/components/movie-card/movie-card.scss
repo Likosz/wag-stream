@@ -1,0 +1,117 @@
+.movie-card {
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #1a1a1a;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(229, 9, 20, 0.3);
+
+    .movie-card__overlay {
+      opacity: 1;
+    }
+
+    .movie-card__image {
+      transform: scale(1.1);
+    }
+  }
+
+  &__poster {
+    position: relative;
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    background-color: #2a2a2a;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+
+    lucide-angular {
+      fill: #ffd700;
+    }
+
+    .rating-value {
+      color: #ffffff;
+    }
+  }
+
+  &__content {
+    padding: 0.875rem;
+    background: linear-gradient(to bottom, #1a1a1a, #151515);
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.3;
+    min-height: 2.6em;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__year-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    .meta-icon {
+      color: #999999;
+      flex-shrink: 0;
+    }
+  }
+
+  &__year {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    font-weight: 500;
+  }
+
+  &__relative-date {
+    font-size: 0.8rem;
+    color: #777777;
+    font-weight: 400;
+    font-style: italic;
+  }
+}

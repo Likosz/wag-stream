@@ -1,0 +1,29 @@
+<article class="movie-card" [routerLink]="['/movie', movie().id]">
+  <div class="movie-card__poster">
+    <img
+      [src]="getMoviePoster()"
+      [alt]="movie().title"
+      loading="lazy"
+      class="movie-card__image"
+    />
+    <div class="movie-card__overlay">
+      <div class="movie-card__rating">
+        <lucide-angular [img]="StarIcon" [size]="16" [color]="'#ffd700'"></lucide-angular>
+        <span class="rating-value">{{ getRating() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="movie-card__content">
+    <h3 class="movie-card__title" [title]="movie().title">
+      {{ movie().title }}
+    </h3>
+    <div class="movie-card__meta">
+      <div class="movie-card__year-group">
+        <lucide-angular [img]="CalendarIcon" [size]="14" class="meta-icon"></lucide-angular>
+        <span class="movie-card__year">{{ getReleaseYear() }}</span>
+      </div>
+      <span class="movie-card__relative-date">{{ getRelativeReleaseDate() }}</span>
+    </div>
+  </div>
+</article>
