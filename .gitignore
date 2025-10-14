@@ -41,3 +41,11 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment files with API keys
+/src/app/environments/environment.ts
+/src/app/environments/environment.prod.ts
+
+# Claude AI assistant files
+.claude/
+../.claude/
