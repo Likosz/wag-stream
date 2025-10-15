@@ -5,12 +5,9 @@ Uma plataforma moderna de filmes desenvolvida com Angular 20, consumindo a API d
 ## Tecnologias Utilizadas
 
 - **Angular 20.3** - Framework principal
-- **TypeScript 5.9** - Linguagem
-- **SCSS** - Estilização
 - **TMDB API** - Dados de filmes
 - **Standalone Components** - Arquitetura moderna do Angular
-- **Angular Signals** - Reatividade modern
-- **i18n**: Suporte para Português (PT-BR) e Inglês (EN-US)a
+- **i18n**: Suporte para Português (PT-BR) e Inglês (EN-US)
 
 ## https://wag-stream.vercel.app/home
 
