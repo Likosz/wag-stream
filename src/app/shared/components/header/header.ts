@@ -1,9 +1,19 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LucideAngularModule, Search, Home, Film, TrendingUp, Heart } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Search,
+  Home,
+  Film,
+  TrendingUp,
+  Heart,
+  Sun,
+  Moon,
+} from 'lucide-angular';
 import { filter } from 'rxjs/operators';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +22,8 @@ import { filter } from 'rxjs/operators';
   styleUrl: './header.scss',
 })
 export class HeaderComponent implements OnInit {
+  private themeService = inject(ThemeService);
+
   searchControl = new FormControl('');
   isScrolled = signal(false);
   showMobileMenu = signal(false);
@@ -21,6 +33,10 @@ export class HeaderComponent implements OnInit {
   readonly FilmIcon = Film;
   readonly TrendingIcon = TrendingUp;
   readonly HeartIcon = Heart;
+  readonly SunIcon = Sun;
+  readonly MoonIcon = Moon;
+
+  isDarkMode = this.themeService.isDarkMode;
 
   constructor(private router: Router) {}
 
@@ -53,5 +69,9 @@ export class HeaderComponent implements OnInit {
 
   toggleMobileMenu() {
     this.showMobileMenu.update((v) => !v);
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }

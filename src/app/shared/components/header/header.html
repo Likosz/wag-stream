@@ -36,6 +36,15 @@
       </button>
     </div>
 
+    <!-- Theme Toggle -->
+    <button
+      class="header__theme-toggle"
+      (click)="toggleTheme()"
+      [attr.aria-label]="isDarkMode() ? 'Ativar modo claro' : 'Ativar modo escuro'"
+    >
+      <lucide-angular [img]="isDarkMode() ? SunIcon : MoonIcon" [size]="20"></lucide-angular>
+    </button>
+
     <!-- Mobile Menu Toggle -->
     <button class="header__mobile-toggle" (click)="toggleMobileMenu()">
       <span class="header__mobile-toggle-bar"></span>
@@ -59,6 +68,10 @@
         <lucide-angular [img]="HeartIcon" [size]="20"></lucide-angular>
         <span>Favoritos</span>
       </a>
+      <button (click)="toggleTheme()" class="header__mobile-link header__mobile-theme">
+        <lucide-angular [img]="isDarkMode() ? SunIcon : MoonIcon" [size]="20"></lucide-angular>
+        <span>{{ isDarkMode() ? 'Modo Claro' : 'Modo Escuro' }}</span>
+      </button>
     </nav>
 
     <!-- Mobile Search -->
