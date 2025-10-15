@@ -101,6 +101,34 @@
         border-radius: 2px;
       }
     }
+
+    // Botão SORTEAR - Mais chamativo
+    &--random {
+      background: linear-gradient(135deg, #e50914 0%, #ff4757 100%);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+      animation: subtlePulse 3s ease-in-out infinite;
+
+      &:hover {
+        background: linear-gradient(135deg, #f40612 0%, #ff6b6b 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(229, 9, 20, 0.4);
+      }
+
+      &.active {
+        background: linear-gradient(135deg, #e50914 0%, #ff4757 100%);
+        box-shadow: 0 6px 16px rgba(229, 9, 20, 0.5);
+
+        &::after {
+          background: #ffffff;
+        }
+      }
+
+      lucide-angular {
+        animation: diceRoll 2s ease-in-out infinite;
+      }
+    }
   }
 
   &__search {
@@ -165,6 +193,43 @@
       background: var(--color-primary-hover);
       transform: translateY(-1px);
     }
+  }
+
+  // Language Toggle Button
+  &__language-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 42px;
+    padding: 0 0.75rem;
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 21px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    &:hover {
+      background: rgba(229, 9, 20, 0.1);
+      border-color: var(--color-primary);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+    }
+  }
+
+  &__language-label {
+    letter-spacing: 0.5px;
   }
 
   // Theme Toggle Button
@@ -285,6 +350,21 @@
       color: var(--color-primary);
       background: rgba(229, 9, 20, 0.1);
     }
+
+    // Botão SORTEAR mobile - Mais chamativo
+    &--random {
+      background: linear-gradient(135deg, #e50914 0%, #ff4757 100%);
+      color: #ffffff;
+      font-weight: 600;
+
+      &:hover {
+        background: linear-gradient(135deg, #f40612 0%, #ff6b6b 100%);
+      }
+
+      &.active {
+        background: linear-gradient(135deg, #e50914 0%, #ff4757 100%);
+      }
+    }
   }
 
   &__mobile-search {
@@ -333,4 +413,18 @@
 // Add padding to body to account for fixed header
 :host {
   display: block;
+}
+
+// Animações
+@keyframes diceRoll {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
 }

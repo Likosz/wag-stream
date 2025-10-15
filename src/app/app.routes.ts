@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('./features/favorites/favorites').then((m) => m.FavoritesComponent),
   },
   {
+    path: 'random',
+    loadComponent: () =>
+      import('./features/random/random').then((m) => m.RandomComponent),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

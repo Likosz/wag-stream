@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { TmdbService } from '../../core/services/tmdb.service';
 import { ScrollPositionService } from '../../core/services/scroll-position.service';
+import { LanguageService } from '../../core/services/language.service';
 import { Movie, MovieCategory } from '../../core/models';
 import { CarouselComponent } from '../../shared/components/carousel/carousel';
 import { MovieCarouselComponent } from '../../shared/components/movie-carousel/movie-carousel';
@@ -10,6 +11,7 @@ import { MovieCardComponent } from '../../shared/components/movie-card/movie-car
 import { MovieCardSkeletonComponent } from '../../shared/components/movie-card-skeleton/movie-card-skeleton';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
 import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-home',
@@ -19,11 +21,13 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
     MovieCarouselComponent,
     MovieCardSkeletonComponent,
     ScrollToTopComponent,
+    TranslatePipe,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  private languageService = inject(LanguageService);
   featuredMovies = signal<Movie[]>([]);
   popularMovies = signal<Movie[]>([]);
   topRatedMovies = signal<Movie[]>([]);

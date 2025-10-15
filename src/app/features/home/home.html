@@ -25,21 +25,21 @@
   <app-movie-carousel
     *ngIf="popularMovies().length > 0"
     [movies]="popularMovies()"
-    [title]="'Filmes Populares'"
+    [title]="'popularMovies' | translate"
   ></app-movie-carousel>
 
   <!-- Mais Bem Avaliados -->
   <app-movie-carousel
     *ngIf="topRatedMovies().length > 0"
     [movies]="topRatedMovies()"
-    [title]="'Mais Bem Avaliados'"
+    [title]="'topRated' | translate"
   ></app-movie-carousel>
 
   <!-- Próximos Lançamentos -->
   <app-movie-carousel
     *ngIf="upcomingMovies().length > 0"
     [movies]="upcomingMovies()"
-    [title]="'Próximos Lançamentos'"
+    [title]="'upcomingMovies' | translate"
   ></app-movie-carousel>
 
   }

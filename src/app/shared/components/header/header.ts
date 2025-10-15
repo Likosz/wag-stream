@@ -11,18 +11,23 @@ import {
   Heart,
   Sun,
   Moon,
+  Dices,
+  Languages,
 } from 'lucide-angular';
 import { filter } from 'rxjs/operators';
 import { ThemeService } from '../../../core/services/theme.service';
+import { LanguageService } from '../../../core/services/language.service';
+import { TranslatePipe } from '../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class HeaderComponent implements OnInit {
   private themeService = inject(ThemeService);
+  private languageService = inject(LanguageService);
 
   searchControl = new FormControl('');
   isScrolled = signal(false);
@@ -35,8 +40,11 @@ export class HeaderComponent implements OnInit {
   readonly HeartIcon = Heart;
   readonly SunIcon = Sun;
   readonly MoonIcon = Moon;
+  readonly DicesIcon = Dices;
+  readonly LanguagesIcon = Languages;
 
   isDarkMode = this.themeService.isDarkMode;
+  currentLanguage = this.languageService.currentLanguage;
 
   constructor(private router: Router) {}
 
@@ -73,5 +81,13 @@ export class HeaderComponent implements OnInit {
 
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  toggleLanguage() {
+    this.languageService.toggleLanguage();
+  }
+
+  getLanguageLabel(): string {
+    return this.currentLanguage() === 'pt-BR' ? 'BR' : 'EN';
   }
 }
