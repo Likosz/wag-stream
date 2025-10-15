@@ -8,21 +8,15 @@ import { animate } from 'motion';
   standalone: true,
 })
 export class PageTransitionDirective implements OnInit {
-  constructor(
-    private el: ElementRef,
-    private router: Router
-  ) {}
+  constructor(private el: ElementRef, private router: Router) {}
 
   ngOnInit() {
-    // Animação de entrada inicial
     this.animateIn();
 
     // Escuta mudanças de rota
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.animateIn();
-      });
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.animateIn();
+    });
   }
 
   private animateIn() {

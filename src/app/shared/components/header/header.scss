@@ -73,7 +73,7 @@
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     text-decoration: none;
-    color: #e0e0e0;
+    color: var(--color-text-secondary);
     font-size: 0.95rem;
     font-weight: 500;
     border-radius: 8px;
@@ -81,12 +81,12 @@
     position: relative;
 
     &:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text-primary);
+      background: var(--color-bg-secondary);
     }
 
     &.active {
-      color: #e50914;
+      color: var(--color-primary);
       background: rgba(229, 9, 20, 0.1);
 
       &::after {
@@ -97,7 +97,7 @@
         transform: translateX(-50%);
         width: 30px;
         height: 3px;
-        background: #e50914;
+        background: var(--color-primary);
         border-radius: 2px;
       }
     }
@@ -108,8 +108,8 @@
     max-width: 500px;
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
     border-radius: 10px;
     padding: 0 1rem;
     transition: all 0.3s ease;
@@ -124,14 +124,14 @@
     }
 
     &:focus-within {
-      border-color: #e50914;
+      border-color: var(--color-primary);
       background: rgba(229, 9, 20, 0.05);
       box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
     }
   }
 
   &__search-icon {
-    color: #999;
+    color: var(--color-text-tertiary);
     flex-shrink: 0;
   }
 
@@ -139,18 +139,18 @@
     flex: 1;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: var(--color-text-primary);
     font-size: 0.95rem;
     padding: 0.75rem;
     outline: none;
 
     &::placeholder {
-      color: #666;
+      color: var(--color-text-tertiary);
     }
   }
 
   &__search-btn {
-    background: #e50914;
+    background: var(--color-primary);
     border: none;
     border-radius: 6px;
     padding: 0.5rem 1rem;
@@ -162,7 +162,7 @@
     flex-shrink: 0;
 
     &:hover {
-      background: #c40812;
+      background: var(--color-primary-hover);
       transform: translateY(-1px);
     }
   }
@@ -174,8 +174,8 @@
     justify-content: center;
     width: 42px;
     height: 42px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -188,7 +188,7 @@
 
     &:hover {
       background: rgba(229, 9, 20, 0.1);
-      border-color: #e50914;
+      border-color: var(--color-primary);
       transform: rotate(20deg) scale(1.1);
     }
 
@@ -227,7 +227,7 @@
   &__mobile-toggle-bar {
     width: 24px;
     height: 2px;
-    background: #ffffff;
+    background: var(--color-text-primary);
     border-radius: 2px;
     transition: all 0.3s ease;
   }
@@ -235,8 +235,9 @@
   // Mobile Menu
   &__mobile-menu {
     display: none;
-    background: rgba(10, 10, 10, 0.98);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-overlay);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--color-border);
     padding: 1rem;
     animation: slideDown 0.3s ease-out;
 
@@ -269,19 +270,19 @@
     gap: 0.75rem;
     padding: 0.875rem 1rem;
     text-decoration: none;
-    color: #e0e0e0;
+    color: var(--color-text-secondary);
     font-size: 1rem;
     font-weight: 500;
     border-radius: 8px;
     transition: all 0.2s ease;
 
     &:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text-primary);
+      background: var(--color-bg-secondary);
     }
 
     &.active {
-      color: #e50914;
+      color: var(--color-primary);
       background: rgba(229, 9, 20, 0.1);
     }
   }
@@ -293,26 +294,26 @@
 
   &__mobile-search-input {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
     border-radius: 8px;
-    color: #ffffff;
+    color: var(--color-text-primary);
     font-size: 0.95rem;
     padding: 0.75rem 1rem;
     outline: none;
 
     &::placeholder {
-      color: #666;
+      color: var(--color-text-tertiary);
     }
 
     &:focus {
-      border-color: #e50914;
+      border-color: var(--color-primary);
       background: rgba(229, 9, 20, 0.05);
     }
   }
 
   &__mobile-search-btn {
-    background: #e50914;
+    background: var(--color-primary);
     border: none;
     border-radius: 8px;
     padding: 0.75rem 1rem;
@@ -324,7 +325,7 @@
     justify-content: center;
 
     &:hover {
-      background: #c40812;
+      background: var(--color-primary-hover);
     }
   }
 }
