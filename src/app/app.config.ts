@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, isDevMode } from '@angular/core';
-import { provideRouter, withViewTransitions, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withViewTransitions, withInMemoryScrolling, withPreloading } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
 import { routes } from './app.routes';
 import { apiKeyInterceptor } from './core/interceptors/api-key.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { CustomPreloadingStrategy } from './core/strategies/preload-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
+      withPreloading(CustomPreloadingStrategy),
       withViewTransitions(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',

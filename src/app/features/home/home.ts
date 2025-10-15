@@ -36,11 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoadingMore = signal(false);
   skeletonArray = new Array(20);
 
-  // Pagination state
   private currentPage = {
-    popular: 3,
-    topRated: 3,
-    upcoming: 3,
+    popular: 2,
+    topRated: 2,
+    upcoming: 2,
   };
 
   private totalPages = {
@@ -78,14 +77,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       error: (error) => console.error('Erro ao carregar filmes em destaque:', error),
     });
 
-    // Carregar 3 páginas de Filmes Populares em paralelo
     forkJoin([
       this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 1),
       this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 2),
-      this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 3),
     ]).subscribe({
-      next: ([page1, page2, page3]) => {
-        this.popularMovies.set([...page1.results, ...page2.results, ...page3.results]);
+      next: ([page1, page2]) => {
+        this.popularMovies.set([...page1.results, ...page2.results]);
         this.totalPages.popular = page1.total_pages;
         this.isLoading.set(false);
       },
@@ -95,27 +92,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     });
 
-    // Carregar 3 páginas de Mais Bem Avaliados em paralelo
     forkJoin([
       this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 1),
       this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 2),
-      this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 3),
     ]).subscribe({
-      next: ([page1, page2, page3]) => {
-        this.topRatedMovies.set([...page1.results, ...page2.results, ...page3.results]);
+      next: ([page1, page2]) => {
+        this.topRatedMovies.set([...page1.results, ...page2.results]);
         this.totalPages.topRated = page1.total_pages;
       },
       error: (error) => console.error('Erro ao carregar filmes mais bem avaliados:', error),
     });
 
-    // Carregar 3 páginas de Próximos Lançamentos em paralelo
     forkJoin([
       this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 1),
       this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 2),
-      this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 3),
     ]).subscribe({
-      next: ([page1, page2, page3]) => {
-        this.upcomingMovies.set([...page1.results, ...page2.results, ...page3.results]);
+      next: ([page1, page2]) => {
+        this.upcomingMovies.set([...page1.results, ...page2.results]);
         this.totalPages.upcoming = page1.total_pages;
       },
       error: (error) => console.error('Erro ao carregar próximos lançamentos:', error),

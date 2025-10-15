@@ -39,18 +39,15 @@ export class RandomComponent {
     this.isRolling.set(true);
     this.showResults.set(false);
 
-    // Animação de 2 segundos antes de buscar
     setTimeout(() => {
       this.randomService.getRandomMovies(this.selectedGenreId, 10).subscribe({
         next: (movies) => {
-          console.log('Movies received:', movies);
           this.randomMovies.set(movies);
           this.isRolling.set(false);
 
           // Pequeno delay para smooth transition
           setTimeout(() => {
             this.showResults.set(true);
-            console.log('Results shown:', this.randomMovies());
           }, 100);
         },
         error: (error) => {
@@ -58,7 +55,7 @@ export class RandomComponent {
           this.isRolling.set(false);
         },
       });
-    }, 2000);
+    }, 1000);
   }
 
   trackByMovieId(index: number, movie: Movie): number {
