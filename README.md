@@ -12,6 +12,8 @@ Uma plataforma moderna de filmes desenvolvida com Angular 20, consumindo a API d
 - **Angular Signals** - Reatividade modern
 - **i18n**: Suporte para Português (PT-BR) e Inglês (EN-US)a
 
+## https://wag-stream.vercel.app/home
+
 ## Randomização de filmes
 **Random**: Sorteio inteligente de 10 filmes com seleção por gênero
 <img width="2559" height="1279" alt="image" src="https://github.com/user-attachments/assets/ce7d75ae-6ea4-4504-a32e-9c1a6d473a2d" />
