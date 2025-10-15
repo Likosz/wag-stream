@@ -1,0 +1,39 @@
+<div class="favorites">
+  <div class="favorites__header">
+    <h1 class="favorites__title">Meus Favoritos</h1>
+    @if (hasFavorites()) {
+    <p class="favorites__count">
+      {{ favoriteCount() }} {{ favoriteCount() === 1 ? 'filme' : 'filmes' }}
+    </p>
+    }
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+  <div class="favorites__loading">
+    <div class="spinner"></div>
+    <p>Carregando favoritos...</p>
+  </div>
+  }
+
+  <!-- Error State -->
+  @else if (hasError()) {
+  <div class="favorites__error">
+    <p>Ocorreu um erro ao carregar seus favoritos.</p>
+    <button class="btn-retry" (click)="loadFavoriteMovies()">Tentar novamente</button>
+  </div>
+  } @else if (!hasFavorites()) {
+  <div class="favorites__empty">
+    <div class="empty-icon">♥</div>
+    <h2>Nenhum filme favorito ainda</h2>
+    <p>Explore nosso catálogo e adicione filmes aos seus favoritos!</p>
+    <a routerLink="/home" class="btn-explore">Explorar Filmes</a>
+  </div>
+  } @else {
+  <div class="favorites__grid">
+    @for (movie of favoriteMovies(); track trackByMovieId($index, movie)) {
+    <app-movie-card [movie]="movie"></app-movie-card>
+    }
+  </div>
+  }
+</div>

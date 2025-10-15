@@ -92,7 +92,7 @@ export class TmdbService {
 
   getImageUrl(path: string | null, size: string = 'original'): string {
     if (!path) {
-      return '/assets/images/no-image.png'; // placeholder para quando não houver imagem
+      return '/assets/images/no-image.png';
     }
     return `${environment.tmdb.imageBaseUrl}/${size}${path}`;
   }

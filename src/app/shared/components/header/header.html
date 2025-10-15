@@ -1,0 +1,112 @@
+<header class="header" [class.scrolled]="isScrolled()">
+  <div class="header__container">
+    <!-- Logo -->
+    <a routerLink="/home" class="header__logo">
+      <span class="header__logo-text">WagStreaming</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="header__nav">
+      <a routerLink="/home" routerLinkActive="active" class="header__nav-link">
+        <lucide-angular [img]="HomeIcon" [size]="18"></lucide-angular>
+        <span>{{ 'home' | translate }}</span>
+      </a>
+      <a routerLink="/search" routerLinkActive="active" class="header__nav-link">
+        <lucide-angular [img]="SearchIcon" [size]="18"></lucide-angular>
+        <span>{{ 'categories' | translate }}</span>
+      </a>
+      <a routerLink="/favorites" routerLinkActive="active" class="header__nav-link">
+        <lucide-angular [img]="HeartIcon" [size]="18"></lucide-angular>
+        <span>{{ 'favorites' | translate }}</span>
+      </a>
+      <a routerLink="/random" routerLinkActive="active" class="header__nav-link header__nav-link--random">
+        <lucide-angular [img]="DicesIcon" [size]="18"></lucide-angular>
+        <span>{{ 'random' | translate }}</span>
+      </a>
+    </nav>
+
+    <!-- Desktop Search Bar -->
+    <div class="header__search">
+      <lucide-angular [img]="SearchIcon" [size]="18" class="header__search-icon"></lucide-angular>
+      <input
+        type="text"
+        [formControl]="searchControl"
+        (keypress)="onSearchKeyPress($event)"
+        class="header__search-input"
+        [placeholder]="'searchPlaceholder' | translate"
+      />
+      <button *ngIf="searchControl.value" (click)="onSearch()" class="header__search-btn">
+        {{ 'search' | translate }}
+      </button>
+    </div>
+
+    <!-- Language Toggle -->
+    <button
+      class="header__language-toggle"
+      (click)="toggleLanguage()"
+      [attr.aria-label]="'Trocar idioma'"
+    >
+      <span class="header__language-label">{{ getLanguageLabel() }}</span>
+    </button>
+
+    <!-- Theme Toggle -->
+    <button
+      class="header__theme-toggle"
+      (click)="toggleTheme()"
+      [attr.aria-label]="isDarkMode() ? 'Ativar modo claro' : 'Ativar modo escuro'"
+    >
+      <lucide-angular [img]="isDarkMode() ? SunIcon : MoonIcon" [size]="20"></lucide-angular>
+    </button>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="header__mobile-toggle" (click)="toggleMobileMenu()">
+      <span class="header__mobile-toggle-bar"></span>
+      <span class="header__mobile-toggle-bar"></span>
+      <span class="header__mobile-toggle-bar"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="header__mobile-menu" *ngIf="showMobileMenu()">
+    <nav class="header__mobile-nav">
+      <a routerLink="/home" routerLinkActive="active" class="header__mobile-link">
+        <lucide-angular [img]="HomeIcon" [size]="20"></lucide-angular>
+        <span>{{ 'home' | translate }}</span>
+      </a>
+      <a routerLink="/search" routerLinkActive="active" class="header__mobile-link">
+        <lucide-angular [img]="SearchIcon" [size]="20"></lucide-angular>
+        <span>{{ 'categories' | translate }}</span>
+      </a>
+      <a routerLink="/favorites" routerLinkActive="active" class="header__mobile-link">
+        <lucide-angular [img]="HeartIcon" [size]="20"></lucide-angular>
+        <span>{{ 'favorites' | translate }}</span>
+      </a>
+      <a routerLink="/random" routerLinkActive="active" class="header__mobile-link header__mobile-link--random">
+        <lucide-angular [img]="DicesIcon" [size]="20"></lucide-angular>
+        <span>{{ 'random' | translate }}</span>
+      </a>
+      <button (click)="toggleLanguage()" class="header__mobile-link header__mobile-theme">
+        <lucide-angular [img]="LanguagesIcon" [size]="20"></lucide-angular>
+        <span>{{ getLanguageLabel() }}</span>
+      </button>
+      <button (click)="toggleTheme()" class="header__mobile-link header__mobile-theme">
+        <lucide-angular [img]="isDarkMode() ? SunIcon : MoonIcon" [size]="20"></lucide-angular>
+        <span>{{ isDarkMode() ? 'Modo Claro' : 'Modo Escuro' }}</span>
+      </button>
+    </nav>
+
+    <!-- Mobile Search -->
+    <div class="header__mobile-search">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        (keypress)="onSearchKeyPress($event)"
+        class="header__mobile-search-input"
+        [placeholder]="'searchPlaceholder' | translate"
+      />
+      <button (click)="onSearch()" class="header__mobile-search-btn">
+        <lucide-angular [img]="SearchIcon" [size]="20"></lucide-angular>
+      </button>
+    </div>
+  </div>
+</header>

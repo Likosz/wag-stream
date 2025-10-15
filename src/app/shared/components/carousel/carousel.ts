@@ -17,10 +17,11 @@ import { TmdbService } from '../../../core/services/tmdb.service';
 import { ImageSize } from '../../../core/models/enums';
 import { LucideAngularModule, Play, Star, ChevronLeft, ChevronRight } from 'lucide-angular';
 import { animate, inView } from 'motion';
+import { TranslatePipe } from '../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-carousel',
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [CommonModule, RouterLink, LucideAngularModule, TranslatePipe],
   templateUrl: './carousel.html',
   styleUrl: './carousel.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

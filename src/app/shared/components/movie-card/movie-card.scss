@@ -3,12 +3,12 @@
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #1a1a1a;
+  background-color: var(--color-card-bg);
   position: relative;
 
   &:hover {
     transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(229, 9, 20, 0.3);
+    box-shadow: 0 12px 32px rgba(229, 9, 20, 0.3), var(--shadow-lg);
 
     .movie-card__overlay {
       opacity: 1;
@@ -23,7 +23,7 @@
     position: relative;
     aspect-ratio: 2/3;
     overflow: hidden;
-    background-color: #2a2a2a;
+    background-color: var(--color-bg-tertiary);
   }
 
   &__image {
@@ -40,6 +40,7 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent 60%);
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     padding: 1rem;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -67,14 +68,14 @@
 
   &__content {
     padding: 0.875rem;
-    background: linear-gradient(to bottom, #1a1a1a, #151515);
+    background: linear-gradient(to bottom, var(--color-card-bg), var(--color-card-hover));
   }
 
   &__title {
     font-size: 1rem;
     font-weight: 700;
     margin: 0 0 0.5rem 0;
-    color: #ffffff;
+    color: var(--color-text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -97,21 +98,58 @@
     gap: 0.4rem;
 
     .meta-icon {
-      color: #999999;
+      color: var(--color-text-secondary);
       flex-shrink: 0;
     }
   }
 
   &__year {
     font-size: 0.9rem;
-    color: #aaaaaa;
+    color: var(--color-text-secondary);
     font-weight: 500;
   }
 
   &__relative-date {
     font-size: 0.8rem;
-    color: #777777;
+    color: var(--color-text-tertiary);
     font-weight: 400;
     font-style: italic;
+  }
+}
+
+// Favorite Button
+.favorite-btn {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.95);
+    transform: scale(1.1);
+  }
+
+  &.active {
+    background: rgba(229, 9, 20, 0.2);
+
+    &:hover {
+      background: rgba(229, 9, 20, 0.3);
+    }
+  }
+
+  &__icon {
+    transition: all 0.3s ease;
+  }
+
+  &.active &__icon {
+    fill: #e50914;
   }
 }

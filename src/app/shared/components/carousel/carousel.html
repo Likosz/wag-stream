@@ -8,7 +8,7 @@
         <div class="featured-banner__overlay"></div>
 
         <div class="featured-banner__content">
-          <span class="featured-banner__label">Em Destaque</span>
+          <span class="featured-banner__label">{{ 'trending' | translate }}</span>
 
           <h2 class="featured-banner__title">{{ currentMovie().title }}</h2>
 
@@ -23,7 +23,7 @@
 
           <button class="featured-banner__play-btn">
             <lucide-angular [img]="PlayIcon" [size]="20"></lucide-angular>
-            <span>Assistir Agora</span>
+            <span>{{ 'watchNow' | translate }}</span>
           </button>
         </div>
       </div>

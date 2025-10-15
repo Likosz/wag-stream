@@ -1,0 +1,184 @@
+<div class="search-page">
+  <!-- Search Header -->
+  <div class="search-header">
+    <div class="search-header__container">
+      <h1 class="search-header__title">Buscar Filmes</h1>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <lucide-angular [img]="SearchIcon" [size]="20" class="search-bar__icon"></lucide-angular>
+        <input
+          type="text"
+          [formControl]="searchControl"
+          class="search-bar__input"
+          placeholder="Digite o nome do filme..."
+          autocomplete="off"
+        />
+        <button
+          *ngIf="searchControl.value"
+          (click)="clearSearch()"
+          class="search-bar__clear"
+          aria-label="Limpar busca"
+        >
+          <lucide-angular [img]="XIcon" [size]="18"></lucide-angular>
+        </button>
+      </div>
+
+      <!-- Filter Toggle Button -->
+      <button class="filter-toggle" (click)="toggleFilters()" [class.active]="showFilters()">
+        <lucide-angular [img]="SlidersIcon" [size]="20"></lucide-angular>
+        <span>Filtros</span>
+        <span *ngIf="hasActiveFilters()" class="filter-badge">{{
+          (selectedGenres().length > 0 ? 1 : 0) +
+            (selectedYear() !== null ? 1 : 0) +
+            (selectedRating() !== null ? 1 : 0) +
+            (selectedSort() !== 'popularity.desc' ? 1 : 0)
+        }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Panel -->
+  <div class="filters-panel" *ngIf="showFilters()" [@slideDown]>
+    <div class="filters-panel__container">
+      <div class="filters-panel__header">
+        <div class="filters-panel__title">
+          <lucide-angular [img]="FilterIcon" [size]="20"></lucide-angular>
+          <h3>Filtros</h3>
+        </div>
+        <button *ngIf="hasActiveFilters()" (click)="clearFilters()" class="filters-panel__clear">
+          Limpar todos
+        </button>
+      </div>
+
+      <div class="filters-grid">
+        <!-- Genre Filter -->
+        <div class="filter-group">
+          <label class="filter-label">Gêneros</label>
+          <div class="genre-chips">
+            <button
+              *ngFor="let genre of genres()"
+              class="genre-chip"
+              [class.active]="isGenreSelected(genre.id)"
+              (click)="toggleGenre(genre.id)"
+            >
+              {{ genre.name }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Year Filter -->
+        <div class="filter-group">
+          <label class="filter-label">Ano</label>
+          <select
+            class="filter-select"
+            [value]="selectedYear() || ''"
+            (change)="setYear($any($event.target).value ? +$any($event.target).value : null)"
+          >
+            <option value="">Todos os anos</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+
+        <!-- Rating Filter -->
+        <div class="filter-group">
+          <label class="filter-label">Avaliação Mínima</label>
+          <select
+            class="filter-select"
+            [value]="selectedRating() || ''"
+            (change)="setRating($any($event.target).value ? +$any($event.target).value : null)"
+          >
+            <option value="">Qualquer avaliação</option>
+            <option value="9">9+ ⭐ Excelente</option>
+            <option value="8">8+ ⭐ Muito Bom</option>
+            <option value="7">7+ ⭐ Bom</option>
+            <option value="6">6+ ⭐ Regular</option>
+            <option value="5">5+ ⭐ Abaixo da Média</option>
+          </select>
+        </div>
+
+        <!-- Sort Filter -->
+        <div class="filter-group">
+          <label class="filter-label">Ordenar por</label>
+          <select
+            class="filter-select"
+            [value]="selectedSort()"
+            (change)="setSort($any($event.target).value)"
+          >
+            <option *ngFor="let option of sortOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div class="search-results">
+    <div class="search-results__container">
+      <!-- Results Header -->
+      <div class="results-header" *ngIf="hasSearched() && !isLoading()">
+        <p class="results-count">
+          <span *ngIf="filteredMoviesCount() > 0">
+            {{ filteredMoviesCount() }} resultado{{
+              filteredMoviesCount() !== 1 ? 's' : ''
+            }}
+            encontrado{{ filteredMoviesCount() !== 1 ? 's' : '' }}
+          </span>
+        </p>
+      </div>
+
+      <!-- Loading State -->
+      <div class="movies-grid" *ngIf="isLoading()">
+        <app-movie-card-skeleton *ngFor="let _ of skeletonArray"></app-movie-card-skeleton>
+      </div>
+
+      <!-- Results Grid -->
+      <div class="movies-grid" *ngIf="!isLoading() && movies().length > 0">
+        <app-movie-card *ngFor="let movie of movies()" [movie]="movie"></app-movie-card>
+      </div>
+
+      <!-- Loading More Indicator -->
+      <div class="search-results__loading-more" *ngIf="isLoadingMore()">
+        <div class="loading-spinner"></div>
+        <p>Carregando mais resultados...</p>
+      </div>
+
+      <!-- Infinite Scroll Sentinel -->
+      <div
+        class="search-results__scroll-sentinel"
+        *ngIf="!isLoading() && movies().length > 0"
+        appInfiniteScroll
+        [disabled]="!canLoadMore"
+        (scrolled)="onScrollEnd()"
+      ></div>
+
+      <!-- Empty States -->
+      <div class="empty-state" *ngIf="!isLoading() && hasSearched() && movies().length === 0">
+        <div class="empty-state__icon">
+          <lucide-angular [img]="SearchIcon" [size]="64"></lucide-angular>
+        </div>
+        <h2 class="empty-state__title">Nenhum resultado encontrado</h2>
+        <p class="empty-state__message">
+          Tente ajustar sua busca ou filtros para encontrar o que procura.
+        </p>
+        <button class="empty-state__button" (click)="clearFilters()" *ngIf="hasActiveFilters()">
+          Limpar filtros
+        </button>
+      </div>
+
+      <div class="empty-state" *ngIf="!isLoading() && !hasSearched()">
+        <div class="empty-state__icon">
+          <lucide-angular [img]="SearchIcon" [size]="64"></lucide-angular>
+        </div>
+        <h2 class="empty-state__title">Comece sua busca</h2>
+        <p class="empty-state__message">
+          Digite o nome de um filme no campo acima ou use os filtros para descobrir novos títulos.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <app-scroll-to-top></app-scroll-to-top>
+</div>
