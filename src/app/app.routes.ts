@@ -22,6 +22,11 @@ export const routes: Routes = [
       import('./features/movie-details/movie-details').then((m) => m.MovieDetailsComponent),
   },
   {
+    path: 'favorites',
+    loadComponent: () =>
+      import('./features/favorites/favorites').then((m) => m.FavoritesComponent),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

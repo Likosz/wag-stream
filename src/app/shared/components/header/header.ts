@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LucideAngularModule, Search, Home, Film, TrendingUp } from 'lucide-angular';
+import { LucideAngularModule, Search, Home, Film, TrendingUp, Heart } from 'lucide-angular';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   readonly HomeIcon = Home;
   readonly FilmIcon = Film;
   readonly TrendingIcon = TrendingUp;
+  readonly HeartIcon = Heart;
 
   constructor(private router: Router) {}
 

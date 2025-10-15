@@ -40,6 +40,7 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent 60%);
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     padding: 1rem;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -113,5 +114,42 @@
     color: #777777;
     font-weight: 400;
     font-style: italic;
+  }
+}
+
+// Favorite Button
+.favorite-btn {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.95);
+    transform: scale(1.1);
+  }
+
+  &.active {
+    background: rgba(229, 9, 20, 0.2);
+
+    &:hover {
+      background: rgba(229, 9, 20, 0.3);
+    }
+  }
+
+  &__icon {
+    transition: all 0.3s ease;
+  }
+
+  &.active &__icon {
+    fill: #e50914;
   }
 }

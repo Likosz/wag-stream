@@ -11,6 +11,21 @@
         <lucide-angular [img]="StarIcon" [size]="16" [color]="'#ffd700'"></lucide-angular>
         <span class="rating-value">{{ getRating() }}</span>
       </div>
+
+      <!-- Favorite Button -->
+      <button
+        class="favorite-btn"
+        [class.active]="isFavorite()"
+        (click)="toggleFavorite($event)"
+        [attr.aria-label]="isFavorite() ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
+      >
+        <lucide-angular
+          [img]="HeartIcon"
+          [size]="20"
+          [color]="isFavorite() ? '#e50914' : '#ffffff'"
+          class="favorite-btn__icon"
+        ></lucide-angular>
+      </button>
     </div>
   </div>
 

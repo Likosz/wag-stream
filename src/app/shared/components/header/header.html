@@ -15,6 +15,10 @@
         <lucide-angular [img]="SearchIcon" [size]="18"></lucide-angular>
         <span>Categorias</span>
       </a>
+      <a routerLink="/favorites" routerLinkActive="active" class="header__nav-link">
+        <lucide-angular [img]="HeartIcon" [size]="18"></lucide-angular>
+        <span>Favoritos</span>
+      </a>
     </nav>
 
     <!-- Desktop Search Bar -->
@@ -50,6 +54,10 @@
       <a routerLink="/search" routerLinkActive="active" class="header__mobile-link">
         <lucide-angular [img]="SearchIcon" [size]="20"></lucide-angular>
         <span>Buscar</span>
+      </a>
+      <a routerLink="/favorites" routerLinkActive="active" class="header__mobile-link">
+        <lucide-angular [img]="HeartIcon" [size]="20"></lucide-angular>
+        <span>Favoritos</span>
       </a>
     </nav>
 

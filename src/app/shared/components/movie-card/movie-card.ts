@@ -1,10 +1,11 @@
-import { Component, input, ElementRef, AfterViewInit, inject } from '@angular/core';
+import { Component, input, ElementRef, AfterViewInit, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Movie } from '../../../core/models';
 import { TmdbService } from '../../../core/services/tmdb.service';
+import { FavoritesService } from '../../../core/services/favorites.service';
 import { ImageSize } from '../../../core/models/enums';
-import { LucideAngularModule, Star, Calendar } from 'lucide-angular';
+import { LucideAngularModule, Star, Calendar, Heart } from 'lucide-angular';
 import { animate, inView } from 'motion';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -23,9 +24,14 @@ dayjs.locale('pt-br');
 export class MovieCardComponent implements AfterViewInit {
   movie = input.required<Movie>();
   private el = inject(ElementRef);
+  private favoritesService = inject(FavoritesService);
 
   readonly StarIcon = Star;
   readonly CalendarIcon = Calendar;
+  readonly HeartIcon = Heart;
+
+  // Computed para verificar se é favorito
+  isFavorite = computed(() => this.favoritesService.isFavorite(this.movie().id));
 
   constructor(private tmdbService: TmdbService) {}
 
@@ -34,11 +40,7 @@ export class MovieCardComponent implements AfterViewInit {
     inView(
       this.el.nativeElement,
       () => {
-        animate(
-          this.el.nativeElement,
-          { opacity: [0, 1], y: [30, 0] },
-          { duration: 0.5 }
-        );
+        animate(this.el.nativeElement, { opacity: [0, 1], y: [30, 0] }, { duration: 0.5 });
       },
       { amount: 0.3 }
     );
@@ -73,5 +75,17 @@ export class MovieCardComponent implements AfterViewInit {
 
     // Se ainda vai lançar, mostra "em X tempo"
     return `em ${release.from(now, true)}`;
+  }
+
+  toggleFavorite(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const button = (event.currentTarget as HTMLElement).querySelector('.favorite-btn__icon');
+    if (button) {
+      animate(button, { scale: [1, 1.3, 1] }, { duration: 0.3 });
+    }
+
+    this.favoritesService.toggleFavorite(this.movie().id);
   }
 }
