@@ -1,7 +1,6 @@
 <div class="random">
   <!-- Header -->
   <div class="random__header">
-    <lucide-angular [img]="SparklesIcon" [size]="48" class="random__header-icon"></lucide-angular>
     <h1 class="random__title">{{ 'randomTitle' | translate }}</h1>
     <p class="random__subtitle">{{ 'randomSubtitle' | translate }}</p>
   </div>
@@ -59,7 +58,6 @@
   @if (showResults() && !isRolling()) {
     <div class="random__results">
       <h2 class="random__results-title">
-        <lucide-angular [img]="SparklesIcon" [size]="24"></lucide-angular>
         {{ 'selectedMovies' | translate }}
       </h2>
       <div class="random__results-grid">

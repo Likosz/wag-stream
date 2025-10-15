@@ -63,7 +63,8 @@ export const translations = {
 
     // Random Page
     randomTitle: 'Descubra Seu Próximo Filme',
-    randomSubtitle: 'Deixe a sorte escolher! Selecione um gênero e role os dados.',
+    randomSubtitle:
+      'Deixe a sorte escolher o que vai assistir hoje! Selecione um gênero e role os dados.',
     anyGenre: 'Qualquer Gênero',
     rollMovies: 'Sortear Filmes',
     rollAgain: 'Sortear Novamente',
@@ -237,4 +238,4 @@ export const translations = {
   },
 };
 
-export type TranslationKeys = typeof translations['pt-BR'];
+export type TranslationKeys = (typeof translations)['pt-BR'];
