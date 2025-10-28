@@ -5,6 +5,8 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   background-color: var(--color-card-bg);
   position: relative;
+  contain: layout style paint;
+  content-visibility: auto;
 
   &:hover {
     transform: translateY(-12px) scale(1.02);
@@ -32,6 +34,7 @@
     object-fit: cover;
     display: block;
     transition: transform 0.5s ease;
+    will-change: transform;
   }
 
   &__overlay {
@@ -123,8 +126,10 @@
   backdrop-filter: blur(8px);
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -45,10 +45,3 @@ Thumbs.db
 # Environment files with API keys (local only)
 /src/app/environments/environment.ts
 /src/app/environments/environment.prod.ts
-
-# Keep template files for deployment
-!/src/app/environments/*.template.ts
-
-# Claude AI assistant files
-.claude/
-../.claude/
