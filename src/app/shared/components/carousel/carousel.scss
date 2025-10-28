@@ -21,6 +21,8 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease;
+    contain: layout style paint;
+    will-change: transform, opacity;
 
     &:hover {
       transform: scale(1.02);

@@ -53,9 +53,13 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
       inView(
         banner,
         () => {
-          animate(banner, { opacity: [0, 1], y: [20, 0] }, { duration: 0.6 });
+          animate(
+            banner,
+            { opacity: [0, 1], transform: ['translateY(20px)', 'translateY(0)'] },
+            { duration: 0.5 }
+          );
         },
-        { amount: 0.3 }
+        { amount: 0.2 }
       );
     }
   }
@@ -119,13 +123,23 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
   private animateTransition(newIndex: number) {
     const card = this.el.nativeElement.querySelector('.featured-banner__card');
     if (card) {
-      animate(card, { opacity: [1, 0], scale: [1, 0.98] }, { duration: 0.3 }).finished.then(() => {
-        this.currentIndex.set(newIndex);
+      animate(
+        card,
+        { opacity: [1, 0], transform: ['scale(1)', 'scale(0.98)'] },
+        { duration: 0.25 }
+      ).finished.then(() => {
+        requestAnimationFrame(() => {
+          this.currentIndex.set(newIndex);
 
-        // Fade in com o novo conteúdo
-        setTimeout(() => {
-          animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
-        }, 50);
+          // Fade in com o novo conteúdo
+          requestAnimationFrame(() => {
+            animate(
+              card,
+              { opacity: [0, 1], transform: ['scale(0.98)', 'scale(1)'] },
+              { duration: 0.25 }
+            );
+          });
+        });
       });
     } else {
       this.currentIndex.set(newIndex);

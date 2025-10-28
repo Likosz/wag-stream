@@ -77,14 +77,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       error: (error) => console.error('Erro ao carregar filmes em destaque:', error),
     });
 
-    forkJoin([
-      this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 1),
-      this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 2),
-    ]).subscribe({
-      next: ([page1, page2]) => {
-        this.popularMovies.set([...page1.results, ...page2.results]);
+    // Prioridade 2: Carregar primeira página de populares (above the fold)
+    this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 1).subscribe({
+      next: (page1) => {
+        this.popularMovies.set(page1.results);
         this.totalPages.popular = page1.total_pages;
         this.isLoading.set(false);
+
+        // Prioridade 3: Carregar segunda página de populares
+        setTimeout(() => {
+          this.tmdbService.getMoviesByCategory(MovieCategory.POPULAR, 2).subscribe({
+            next: (page2) => {
+              this.popularMovies.update((current) => [...current, ...page2.results]);
+            },
+          });
+        }, 100);
       },
       error: (error) => {
         console.error('Erro ao carregar filmes populares:', error);
@@ -92,27 +99,30 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     });
 
-    forkJoin([
-      this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 1),
-      this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 2),
-    ]).subscribe({
-      next: ([page1, page2]) => {
-        this.topRatedMovies.set([...page1.results, ...page2.results]);
-        this.totalPages.topRated = page1.total_pages;
-      },
-      error: (error) => console.error('Erro ao carregar filmes mais bem avaliados:', error),
-    });
+    // Prioridade 4: Carregar outras categorias
+    setTimeout(() => {
+      forkJoin([
+        this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 1),
+        this.tmdbService.getMoviesByCategory(MovieCategory.TOP_RATED, 2),
+      ]).subscribe({
+        next: ([page1, page2]) => {
+          this.topRatedMovies.set([...page1.results, ...page2.results]);
+          this.totalPages.topRated = page1.total_pages;
+        },
+        error: (error) => console.error('Erro ao carregar filmes mais bem avaliados:', error),
+      });
 
-    forkJoin([
-      this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 1),
-      this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 2),
-    ]).subscribe({
-      next: ([page1, page2]) => {
-        this.upcomingMovies.set([...page1.results, ...page2.results]);
-        this.totalPages.upcoming = page1.total_pages;
-      },
-      error: (error) => console.error('Erro ao carregar próximos lançamentos:', error),
-    });
+      forkJoin([
+        this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 1),
+        this.tmdbService.getMoviesByCategory(MovieCategory.UPCOMING, 2),
+      ]).subscribe({
+        next: ([page1, page2]) => {
+          this.upcomingMovies.set([...page1.results, ...page2.results]);
+          this.totalPages.upcoming = page1.total_pages;
+        },
+        error: (error) => console.error('Erro ao carregar próximos lançamentos:', error),
+      });
+    }, 200);
   }
 
   onScrollEnd() {

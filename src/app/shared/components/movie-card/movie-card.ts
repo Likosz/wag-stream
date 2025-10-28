@@ -40,9 +40,13 @@ export class MovieCardComponent implements AfterViewInit {
     inView(
       this.el.nativeElement,
       () => {
-        animate(this.el.nativeElement, { opacity: [0, 1], y: [30, 0] }, { duration: 0.5 });
+        animate(
+          this.el.nativeElement,
+          { opacity: [0, 1], transform: ['translateY(30px)', 'translateY(0)'] },
+          { duration: 0.4 }
+        );
       },
-      { amount: 0.3 }
+      { amount: 0.2 }
     );
   }
 

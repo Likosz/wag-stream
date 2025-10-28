@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>WagStreaming</title>
+    <title>WagStreaming - Descubra os melhores filmes</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Descubra, explore e favorite os melhores filmes. Busca avançada, detalhes completos, trailers e recomendações personalizadas. Sua plataforma de streaming definitiva." />
+    <meta name="theme-color" content="#e50914" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Preconnect para domínios externos (otimização de rede) -->
+    <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
+    <link rel="preconnect" href="https://image.tmdb.org" crossorigin />
+    <link rel="dns-prefetch" href="https://api.themoviedb.org" />
+    <link rel="dns-prefetch" href="https://image.tmdb.org" />
+
+    <!-- Preload de fontes críticas com font-display swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" /></noscript>
   </head>
   <body>
     <app-root></app-root>
