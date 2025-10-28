@@ -4,6 +4,8 @@
       <div
         class="featured-banner__backdrop"
         [style.background-image]="'url(' + getBackdropUrl(currentMovie()) + ')'"
+        role="img"
+        [attr.aria-label]="currentMovie().title"
       >
         <div class="featured-banner__overlay"></div>
 
@@ -30,10 +32,16 @@
     </div>
 
     <!-- Navigation Arrows -->
-    <button class="featured-banner__nav featured-banner__nav--prev" (click)="previousSlide($event)">
+    <button
+      class="featured-banner__nav featured-banner__nav--prev"
+      (click)="previousSlide($event)"
+      aria-label="Filme anterior">
       <lucide-angular [img]="ChevronLeftIcon" [size]="24"></lucide-angular>
     </button>
-    <button class="featured-banner__nav featured-banner__nav--next" (click)="nextSlide($event)">
+    <button
+      class="featured-banner__nav featured-banner__nav--next"
+      (click)="nextSlide($event)"
+      aria-label="Próximo filme">
       <lucide-angular [img]="ChevronRightIcon" [size]="24"></lucide-angular>
     </button>
 
