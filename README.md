@@ -1,5 +1,6 @@
 # WagStream 
 
+Projeto feito com o objetivo de aprimorar/estudar tecnologias atualizadas
 Uma plataforma moderna de filmes desenvolvida com Angular 20, consumindo a API do TMDB (The Movie Database)
 
 ## Tecnologias Utilizadas
